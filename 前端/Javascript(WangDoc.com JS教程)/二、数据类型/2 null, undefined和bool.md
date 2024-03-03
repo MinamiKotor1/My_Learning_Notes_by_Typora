@@ -1,5 +1,7 @@
 # null、undefined和bool
 
+[TOC]
+
 ### 1 null和undefined
 
 ##### 1) 概述
