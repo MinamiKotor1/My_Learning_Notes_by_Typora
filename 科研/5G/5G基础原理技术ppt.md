@@ -108,9 +108,15 @@ eMBB、uRLLC和mMTC在5G技术中扮演不同的角色，满足不同的应用�
 
 ### 2. NSA架构
 
-​	以Option3系列为例
+**以Option3系列为例**
+
+[5G架构演进 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/33042535)
 
 + 控制面信令通过4G基站与4G核心网交互完成
+
+  [如何区分用户面，控制面，数据面，管理面等相关概念-CSDN博客](https://blog.csdn.net/weixin_45766278/article/details/126823087)
+
+  [信令 - 维基百科，自由的百科全书 (wikipedia.org)](https://zh.wikipedia.org/wiki/信令)
 
   4G主站作为主站，5G基站作为从站
 
@@ -121,3 +127,127 @@ eMBB、uRLLC和mMTC在5G技术中扮演不同的角色，满足不同的应用�
   用户面数据通过5G基站分流到4G基站上承载，其余位于5G基站
 
 ![image-20240407204730349](./5G基础原理技术ppt.assets/image-20240407204730349.png)
+
+![image-20240407204936629](./5G基础原理技术ppt.assets/image-20240407204936629.png)
+
+### 3. SA组网架构
+
+![image-20240407205009885](./5G基础原理技术ppt.assets/image-20240407205009885.png)
+
+### 4. 5GC网络架构演进方案
+
+5GC（5G核心网）[你可以了解的5GC - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/663241513)
+
+![image-20240407205307360](./5G基础原理技术ppt.assets/image-20240407205307360.png)
+
+Option3
+
++ 只需要引入5G无线系统和升级EPC支持5G业务，利于加快5G部署实现网络灵活过渡，因此是很多运营商在5G部署初期采用的组网方案。
+
+主推Option3系作为一个中间态
+
++ 这样的好处是终端、无线、核心网改动最小，用户能最快体验5G服务
+
+Option2则作为网络长期演进的最终方案
+
+Option7和Option4作为可选组网方案。典型组网方案如下图所示:
+
+![image-20240407205444018](./5G基础原理技术ppt.assets/image-20240407205444018.png)
+
+---
+
+## 03 SA关键技术
+
+### 1. 背景
+
+5G网络需要更灵活的架构，以适应不同环境的业务需求。
+
+**当前3GPP协议**
+
++ 定义的网元功能组合复杂
++ 存在功能重叠，无法做到为某一种特定的业务类型定制控制功能组合
++ 因此所有不同的业务将共用同一套逻辑控制功能，众多控制功能间的紧耦合性以及网元间接口的复杂性给业务的上线、网络的运维带来了极大的困难，**其灵活性不足以支撑5G时代的多业务场景。**
+
+![image-20240407205746495](./5G基础原理技术ppt.assets/image-20240407205746495.png)
+
+[什么是主机安全服务_主机安全服务（新版）HSS_产品介绍 (huaweicloud.com)](https://support.huaweicloud.com/productdesc-hss2.0/hss_01_0001.html)
+
+[几篇关于【核心网】MME、PGW、SGW和PCRF的介绍-CSDN博客](https://blog.csdn.net/Rong_Toa/article/details/94983607)
+
+### 2. SBA架构
+
+适应未来业务，结合IT的**Cloud Native（云原生）**理念，5G架构进行变革：
+
+[什么是云原生？这回终于有人讲明白了 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/150190166)
+
+> [!Note]
+>
+> 高度容器化，因此需Docker+k8s
+
++ 控制面抽象为多个独立网络服务
+
+  + 模块化
+  + 软件化
+  + 服务化
+
++ 控制面和用户面分离
+
+  用户面摆脱中心化，既可以灵活部署于核心网，也可以不属于更靠近用户的接入网。
+
+![image-20240407211417715](./5G基础原理技术ppt.assets/image-20240407211417715.png)
+
+每个网络服务和其他服务在业务功能上解耦，并且对外提供服务化接口，可以通过相同的接口向其它调用者提供服务，将多个摆合接口转变为单一服务接口，从而减少了接口数量。这种架构即是**SBA( Service BasedArchitecture)**，基于服务的架构。
+
+面向“**Cloud Native**"定义服务是SBA架构的优势:
+
++ 模块化便于定制:每个5G软件功能由细粒度的”服务”来定义，便于网络按照业务场景以”服务”为粒度定制及编排。
+
++ 轻量化易于扩展:接口基于互联网协议，采用可灵活调用的API交互。
+
+  对内降低网络配置及信令开销，对外提供能力开放的统一接口。
+
++ 独立化利于升级:服务可独立部署、灰度发布，使得网络功能可以快速升级引入新功能。服务可基于虚拟化平台快速部署和弹性扩缩容。
+
+### 3. SBA关键特征
+
+云原生+NFV（网络功能虚拟化）+SDN（软件定义网络）
+
+1. 网络功能解耦
+
+2. 网络服务无状态
+
+   [无状态服务（stateless service）-阿里云开发者社区 (aliyun.com)](https://developer.aliyun.com/article/59799#:~:text=无状态服务（stateless,service）对单次请求的处理，不依赖其他请求，也就是说，处理一次请求所需的全部信息，要么都包含在这个请求里，要么可以从外部获取到（比如说数据库），服务器本身不存储任何信息)
+
+   无状态服务（stateless service）对单次请求的处理，不依赖其他请求，也就是说，处理一次请求所需的全部信息，要么都包含在这个请求里，要么可以从外部获取到（比如说数据库），服务器本身不存储任何信息。
+
+3. 控制面内网络功能间全服务化接口
+
+4. 网络服务自发现、自制理，NRF自动发现网络服务，自动化部署，网络敏捷
+
+   [5G Network Repository Function (NRF) | Oracle](https://www.oracle.com/communications/service-providers-network/products/5g-network-repository-function/)
+
+5. CUPS（控制面和用户面分离）作为5GC的基本框架
+
+   [【一望5G】技术专题 | CUPS & MEC - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/445855697)
+
+6. 网络切片
+
+   [5G网络切片技术解析，一文让你读懂5G切片_5g切片详解 csdn-CSDN博客](https://blog.csdn.net/weixin_45994747/article/details/110132668)
+
+#### 网络功能解耦
+
+EPC网络（4G核心网[EPC （4G核心网） (zte.com.cn)](https://sdnfv.zte.com.cn/zh-CN/vocabularys/EPC)）中，PCRF，MME，GW都可以控制QoS，手机用户在激活时，通过协商确定QoS。
+
+**在5G中，将QoS的控制功能模块化，形成一个功能模块PCF(Policy Control Function)。**
+
+[【5G核心网】 5GC核心网之网元PCF_5g pcf-CSDN博客](https://blog.csdn.net/zhonglinzhang/article/details/107877819)
+
+又如SMF(Session Management Function)，就是将MME，SGW，PW上的会话管理功能模块化。
+
+**在5G中，就是将这些网络功能解耦，抽象为独立的网络服务，便于后续这些服务灵活支撑网络各种应用。**
+
+如下图所示，我们用不同的颜色来类比了解EPC的网元的相关功能在5GC中NF(Network Function)的归属。
+
+![image-20240408112917980](./5G基础原理技术ppt.assets/image-20240408112917980.png)
+
+![image-20240408112939296](./5G基础原理技术ppt.assets/image-20240408112939296.png)
