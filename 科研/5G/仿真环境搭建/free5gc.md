@@ -205,6 +205,11 @@
 
 + 通过git clone下载项目代码：
 
+  > [!Tip]
+  >
+  > + 这里建议克隆free5gc官方的最新版gtp5g
+  > + 若clone速度慢，建议在宿主机上下载后再传到虚拟机上
+
   ```bash
   cd ~
   git clone https://github.com/PrinzOwO/gtp5g.git
@@ -218,7 +223,7 @@
   vim Dockerfile
   ```
   
-  在第一个`RUN`命令前，加上：
+  在也可第一个`RUN`命令前，加上：
   ```bash
   RUN git config --global url."https://hub.fastgit.org".insteadOf https://github.com
   #下面三条配置用于保证在不同go语言版本中配置代理一定生效，建议都写上
@@ -315,3 +320,13 @@ make
 
 ## 四、全套环境配置并运行
 
+### 1. 启动free5gc
+
+```bash
+cd ~/free5gc-compose
+docker-compose up -d
+```
+
+![image-20240417115535501](C:\Users\q1884\AppData\Roaming\Typora\typora-user-images\image-20240417115535501.png)
+
+### 2. 
