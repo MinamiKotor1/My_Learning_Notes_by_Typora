@@ -329,4 +329,24 @@ docker-compose up -d
 
 ![image-20240417115535501](C:\Users\q1884\AppData\Roaming\Typora\typora-user-images\image-20240417115535501.png)
 
-### 2. 
+### 2. UERANSIM配置设置
+
+查看并记录虚拟机网卡地址
+
+```bash
+ifconfig
+```
+
+
+
+![image-20240418002526451](C:\Users\q1884\AppData\Roaming\Typora\typora-user-images\image-20240418002526451.png)
+
+查看并记录amf网元的ip地址
+
+```bash
+docker inspect amf
+```
+
+![image-20240418002759975](C:\Users\q1884\AppData\Roaming\Typora\typora-user-images\image-20240418002759975.png)
+
+### 3. 
