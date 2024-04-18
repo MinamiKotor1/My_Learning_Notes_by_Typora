@@ -347,6 +347,6 @@ ifconfig
 docker inspect amf
 ```
 
-![image-20240418002759975](.\free5gc.assets\image-20240418003007399.png)
+![](.\free5gc.assets\image-20240418003007399.png)
 
 ### 3. 
