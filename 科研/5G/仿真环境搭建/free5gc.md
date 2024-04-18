@@ -327,7 +327,7 @@ cd ~/free5gc-compose
 docker-compose up -d
 ```
 
-![image-20240417115535501](C:\Users\q1884\AppData\Roaming\Typora\typora-user-images\image-20240417115535501.png)
+![image-20240417115535501](.\free5gc.assets\image-20240417115535501-1713371449494-4.png)
 
 ### 2. UERANSIM配置设置
 
@@ -339,7 +339,7 @@ ifconfig
 
 
 
-![image-20240418002526451](C:\Users\q1884\AppData\Roaming\Typora\typora-user-images\image-20240418002526451.png)
+![image-20240418002526451](.\free5gc.assets\image-20240418002944870.png)
 
 查看并记录amf网元的ip地址
 
@@ -347,6 +347,6 @@ ifconfig
 docker inspect amf
 ```
 
-![image-20240418002759975](C:\Users\q1884\AppData\Roaming\Typora\typora-user-images\image-20240418002759975.png)
+![image-20240418002759975](.\free5gc.assets\image-20240418003007399.png)
 
 ### 3. 
