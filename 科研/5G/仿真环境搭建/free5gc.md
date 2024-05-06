@@ -1,4 +1,4 @@
-# Free5gc仿真环境搭建
+# Free5gc仿真环境搭建（Ubuntu 20.04 LTS）
 
 [TOC]
 
