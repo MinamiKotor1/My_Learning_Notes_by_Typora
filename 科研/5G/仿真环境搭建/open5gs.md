@@ -1,4 +1,4 @@
-# Open5GS部署（Ubuntu 22.04 LTS）
+# Open5GS部署（非容器化 Ubuntu 22.04 LTS）
 
 [TOC]
 
@@ -13,6 +13,8 @@ https://medium.com/networkers-fiit-stu/setting-up-open5gs-a-step-by-step-guide-o
 https://medium.com/rahasak/5g-core-network-setup-with-open5gs-and-ueransim-cd0e77025fd7
 
 https://ithelp.ithome.com.tw/articles/10305591
+
+https://openatomworkshop.csdn.net/6605083c872a553575c0f8b5.html
 
 ## 1 Open5GS架构
 
@@ -68,3 +70,48 @@ sudo apt install -y mongodb-org
 sudo systemctl start mongod (if '/usr/bin/mongod' is not running)
 sudo systemctl enable mongod (ensure to automatically start it on system boot)
 ```
+
+### 2. 安装Open5GS
+
+```bash
+sudo add-apt-repository ppa:open5gs/latest
+sudo apt update
+sudo apt install open5gs
+```
+
+![image-20240507010437438](./open5gs.assets/image-20240507010437438.png)
+
+### 3. 安装OpenGS WebUI
+
+#### (1) 先安装node.js
+
+下载并导入 Nodesource GPG 密钥
+
+```bash
+sudo apt update
+sudo apt install -y ca-certificates curl gnupg
+sudo mkdir -p /etc/apt/keyrings
+curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+```
+
+创建 deb 库
+
+```bash
+NODE_MAJOR=20
+echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
+```
+
+安装node.js
+
+```bash
+sudo apt update
+sudo apt install nodejs -y
+```
+
+#### (2) 安装WebUI
+
+```bash
+curl -fsSL https://open5gs.org/open5gs/assets/webui/install | sudo -E bash -
+```
+
+### 4. WebUI的使用
