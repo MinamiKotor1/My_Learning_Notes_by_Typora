@@ -81,6 +81,14 @@ sudo apt install open5gs
 
 ![image-20240507010437438](./open5gs.assets/image-20240507010437438.png)
 
+查看open5gs有关进程
+
+```bash
+ps -ef|grep open5gs
+```
+
+![image-20240509004000648](./open5gs.assets/image-20240509004000648.png)
+
 ### 3. 安装OpenGS WebUI
 
 #### (1) 先安装node.js
@@ -115,3 +123,41 @@ curl -fsSL https://open5gs.org/open5gs/assets/webui/install | sudo -E bash -
 ```
 
 ### 4. WebUI的使用
+
+重启webui服务
+
+```bash
+systemctl stop open5gs-webui.service
+systemctl start open5gs-webui.service
+```
+
+查看webui服务状态
+```bash
+systemctl status open5gs-webui.service
+```
+
+![image-20240509004755516](./open5gs.assets/image-20240509004755516.png)
+
+可以看到运行在9999端口（非固定）
+
+![image-20240509004845885](./open5gs.assets/image-20240509004845885.png)
+
+默认账户：
+
+```bash
+admin
+1423
+```
+
+查看webui的ip和端口设置
+```bash
+cat /usr/lib/node_modules/open5gs/server/index.js
+```
+
+![image-20240509005037390](./open5gs.assets/image-20240509005037390.png)
+
+若要修改配置可vim编辑该文件
+
+IP地址为localhost，如需外部访问可将此处localhost改为本地ip地址,端口号为9999
+
+使用netstat -pan|grep 9999查看端口开放情况
