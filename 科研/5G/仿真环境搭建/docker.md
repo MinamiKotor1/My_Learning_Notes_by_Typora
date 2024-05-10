@@ -61,6 +61,18 @@ systemctl status docker # 查看状态
 systemctl enable docker # 开机自启
 ```
 
+![image-20240511020018966](./docker.assets/image-20240511020018966.png)
+
+运行
+
+```bash
+docker run hello-world
+```
+
+
+
+![image-20240511020116427](./docker.assets/image-20240511020116427.png)
+
 ### 2. docker-compose的安装
 
 安装docker-compose
