@@ -63,7 +63,7 @@ systemctl enable docker # 开机自启
 
 ![image-20240511020018966](./docker.assets/image-20240511020018966.png)
 
-运行
+运行hello-world
 
 ```bash
 docker run hello-world
