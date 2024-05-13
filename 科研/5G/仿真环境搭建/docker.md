@@ -100,6 +100,14 @@ rm  /usr/local/bin/docker-compose
 
 ## 1 docker
 
+端口映射
+
+```bash
+docker port kvpt
+```
+
+
+
 ## 2 docker-compose
 
 ### 1. 启动和关闭（同时移除容器）
