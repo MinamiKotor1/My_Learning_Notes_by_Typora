@@ -170,6 +170,10 @@ IP地址为localhost，如需外部访问可将此处localhost改为本地ip地�
 
 如果要将外部 gNB 连接到核心，还需要更改 AMF 的 NGAP 绑定地址和 UPF 的 GTPU 绑定地址。如果在本地运行 gNB 协议栈，则无需进行这些更改。
 
+> [!Tip]
+>
+> 以下配置不修改plmn_id也可，但是需要保持gnb和ue的plmn_id与amf一致
+
 #### (1) 修改 /etc/open5gs/nrf.yaml 以设置服务 PLMN ID。
 
 ```bash
@@ -260,40 +264,48 @@ $ sudo systemctl restart open5gs-amfd
 $ sudo systemctl restart open5gs-upfd
 ```
 
-sudo systemctl restart open5gs-mmed
-sudo systemctl restart open5gs-sgwcd
-sudo systemctl restart open5gs-smfd
-sudo systemctl restart open5gs-amfd
-sudo systemctl restart open5gs-sgwud
-sudo systemctl restart open5gs-upfd
-sudo systemctl restart open5gs-hssd
-sudo systemctl restart open5gs-pcrfd
-sudo systemctl restart open5gs-nrfd
-sudo systemctl restart open5gs-scpd
-sudo systemctl restart open5gs-seppd
-sudo systemctl restart open5gs-ausfd
-sudo systemctl restart open5gs-udmd
-sudo systemctl restart open5gs-pcfd
-sudo systemctl restart open5gs-nssfd
-sudo systemctl restart open5gs-bsfd
-sudo systemctl restart open5gs-udrd
-sudo systemctl restart open5gs-webui
+### 6. 测试结果
 
-sudo systemctl start open5gs-mmed 1
-sudo systemctl start open5gs-sgwcd 1
-sudo systemctl start open5gs-smfd 1
-sudo systemctl start open5gs-amfd 0
-sudo systemctl start open5gs-sgwud 1
-sudo systemctl start open5gs-upfd 0
-sudo systemctl start open5gs-hssd 1
-sudo systemctl start open5gs-pcrfd 1
-sudo systemctl start open5gs-nrfd 1
-sudo systemctl start open5gs-scpd 1
-sudo systemctl start open5gs-seppd 1
-sudo systemctl start open5gs-ausfd 1
-sudo systemctl start open5gs-udmd 1
-sudo systemctl start open5gs-pcfd 1
-sudo systemctl start open5gs-nssfd 1
-sudo systemctl start open5gs-bsfd 1
-sudo systemctl start open5gs-udrd 1
-sudo systemctl start open5gs-webui
+> [!Tip]
+>
+> UERANSIM安装及配置参照另一篇笔记
+
+A机：Open5GS地址：192.168.40.129
+
+B机：UERANSIM地址：192.168.40.132
+
+#### 启动open5GS
+
+![image-20240515024325737](./open5gs（非容器化）.assets/image-20240515024325737.png)
+
+#### 连接gNB
+
+A机
+
+![image-20240513230532080](./open5gs（非容器化）.assets/image-20240513230532080.png)
+
+B机
+
+![image-20240515024420534](./open5gs（非容器化）.assets/image-20240515024420534.png)
+
+#### UE注册
+
+![image-20240515024516815](./open5gs（非容器化）.assets/image-20240515024516815.png)
+
+#### 启动UE：
+
+A机：
+
+![image-20240515022630971](./open5gs（非容器化）.assets/image-20240515022630971.png)
+
+B机：
+
+![image-20240515022334873](./open5gs（非容器化）.assets/image-20240515022334873.png)
+
+### 7. 常见结果（待更新）
+
+> [!Note]
+>
+> sudo systemctl restart open5gs-mmed sudo systemctl restart open5gs-sgwcd sudo systemctl restart open5gs-smfd sudo systemctl restart open5gs-amfd sudo systemctl restart open5gs-sgwud sudo systemctl restart open5gs-upfd sudo systemctl restart open5gs-hssd sudo systemctl restart open5gs-pcrfd sudo systemctl restart open5gs-nrfd sudo systemctl restart open5gs-scpd sudo systemctl restart open5gs-seppd sudo systemctl restart open5gs-ausfd sudo systemctl restart open5gs-udmd sudo systemctl restart open5gs-pcfd sudo systemctl restart open5gs-nssfd sudo systemctl restart open5gs-bsfd sudo systemctl restart open5gs-udrd sudo systemctl restart open5gs-webui
+>
+> sudo systemctl start open5gs-mmed sudo systemctl start open5gs-sgwcd sudo systemctl start open5gs-smfd sudo systemctl start open5gs-amfd sudo systemctl start open5gs-sgwud sudo systemctl start open5gs-upfd sudo systemctl start open5gs-hssd sudo systemctl start open5gs-pcrfd sudo systemctl start open5gs-nrfd sudo systemctl start open5gs-scpd sudo systemctl start open5gs-seppd sudo systemctl start open5gs-ausfd sudo systemctl start open5gs-udmd sudo systemctl start open5gs-pcfd sudo systemctl start open5gs-nssfd sudo systemctl start open5gs-bsfd sudo systemctl start open5gs-udrd sudo systemctl start open5gs-webui
