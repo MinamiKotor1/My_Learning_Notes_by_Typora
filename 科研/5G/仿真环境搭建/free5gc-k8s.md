@@ -1,0 +1,3 @@
+helm -n free5gc install free5gc-v1 /home/yan/towards5gs-helm/charts/free5gc --set global.n2network.masterIf=eth0,global.n4network.masterIf=eth0,global.n6network.masterIf=eth0,global.n9network.masterIf=eth0,global.n6network.subnetIP=10.244.0.0,global.n6network.gatewayIP=10.244.0.2,free5gc-upf.upf.n6if.ipAddress=10.244.0.20
+
+helm -n free5gc install free5gc-v1 /home/user1/towards5gs-helm/charts/free5gc --set global.n2network.masterIf=eth0,global.n4network.masterIf=eth0,global.n6network.masterIf=eth0,global.n9network.masterIf=eth0,global.n6network.subnetIP=192.168.10.0,global.n6network.gatewayIP=192.168.40.2,free5gc-upf.upf.n6if.ipAddress=192.168.10.20

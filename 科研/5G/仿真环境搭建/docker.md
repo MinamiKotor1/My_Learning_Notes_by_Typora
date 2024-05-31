@@ -6,6 +6,8 @@
 
 ### 1. docker的安装
 
+https://mirrors.tuna.tsinghua.edu.cn/help/docker-ce/
+
 #### (1) 清理旧版
 
 ```bash
