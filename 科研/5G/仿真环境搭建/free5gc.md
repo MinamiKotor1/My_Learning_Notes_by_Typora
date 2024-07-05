@@ -1,4 +1,4 @@
-# Free5gc仿真环境搭建
+# Free5gc仿真环境搭建（Ubuntu 20.04 LTS）
 
 [TOC]
 
@@ -262,12 +262,34 @@
 
 + 通过git clone下载项目代码：
   
+
+  > [!Tip]
+  >
+  > + 这里建议克隆free5gc官方的最新版gtp5g
+  > + 若clone速度慢，建议在宿主机上下载后再传到虚拟机上
+
   ```bash
   cd ~
-  git clone https://github.com/PriczOwO/gtp5g.git
+  git clone https://github.com/PrinzOwO/gtp5g.git
   cd gtp5g
   ```
 
++ 修改make base执行脚本
+
+  ```bash
+  cd base
+  vim Dockerfile
+  ```
+  
+  在也可第一个`RUN`命令前，加上：
+  ```bash
+  RUN git config --global url."https://hub.fastgit.org".insteadOf https://github.com
+  #下面三条配置用于保证在不同go语言版本中配置代理一定生效，建议都写上
+  RUN export GOPROXY=https://goproxy.io
+  RUN export GO111MODULE=on
+  RUN go env -w GOPROXY=https://goproxy.io
+  ```
+  
 + 编译代码
   
   ```bash
@@ -320,6 +342,10 @@
   | 2.0                     | 1.10.0+                   |
   | 1.0                     | 1.9.1.+                   |
   
+  > [!Tip]
+  >
+  > 将两个docker-compose.yaml开头的版本号注释掉即可
+  
   至此，free5gc容器化部署完成
 
 ## 三、UERANSIM模拟设备安装
@@ -349,3 +375,105 @@ sudo apt install iproute2
 cd ~/UERANSIM
 make
 ```
+
+## 四、全套环境配置并运行
+
+### 1. 启动free5gc
+
+```bash
+cd ~/free5gc-compose
+docker-compose up -d
+```
+
+![image-20240417115535501](.\free5gc.assets\image-20240417115535501-1713371449494-4.png)
+
+### 2. UERANSIM配置设置
+
+查看并记录虚拟机网卡地址
+
+```bash
+ifconfig
+```
+
+
+
+![image-20240418002526451](.\free5gc.assets\image-20240418002944870.png)
+
+查看并记录amf网元的ip地址
+
+```bash
+docker inspect amf
+```
+
+![](.\free5gc.assets\image-20240418003007399.png)
+
+修改free5gc-gnb.yaml配置文件完成UERANSIM中gnb的配置
+
+```bash
+cd ~/UERANSIM/config/
+vim free5gc-gnb.yaml
+```
+
+修改其中的**ngapIp**、**gtpIp**为**本机ip**
+
+修改其中的**amfconfig**一项下的**address**为**amf的ip**
+
+至此，UERANSIM的基站配置完成
+
+### 3. 在free5gc中注册UERANSIM的UE部分
+
+访问地址 http://localhost:5000/可进入到free5gc的webui处，登录：
+
+```markdown
+用户名：admin
+密码：free5gc
+```
+
+通过webui增添一个ue的注册信息
+
+![image-20240421205336586](.\free5gc.assets\image-20240421205336586.png)
+
+> [!Tip]
+>
+> 注：此处配置的UE信息原则上需要和~/UERANSIM/config/free5gc-ue.yaml中的信息一致，但由于此处UERANSIM的代码作者已经设置好，所以实际上无需做任何更改
+
+### 4. 启动UERANSIM模拟设备
+
+```shell
+#启动一个shell，执行启动gnb的流程
+cd ~/UERANSIM/build
+#通过nr-gnb程序，指定使用的gnb配置文件，启动模拟基站
+./nr-gnb -c ../config/free5gc-gnb.yaml
+
+#另起一个shell，执行启动UE的流程
+cd ~/UERANSIM/build
+#通过nr-ue程序，指定使用的ue配置文件，启动模拟用户设备
+sudo ./nr-ue -c ../config/free5gc-ue.yaml
+#此处因为需要虚拟出一张ue的网卡，所以需要root权限执行
+```
+
+启动完成后，执行`ifconfig`可以看到多了一张名为**uesimtun0**的网卡；
+
+![image-20240421230029592](./free5gc.assets/image-20240421230029592.png)
+
+另外，在**free5gc**的**webui**处，查看**REALTIME STATUS**可以看到有一个UE处于连接状态，此时即证明UERANSIM的环境启动成功：
+
+![image-20240421230121057](./free5gc.assets/image-20240421230121057.png)
+
+## 四、模拟5g网络基本使用演示
+
+上述环境搭建完成，并且启动free5gc容器后，我们可以通过以下命令查看free5gc单个容器的一些状态信息：
+
+```bash
+docker inspect <容器名(如amf)>
+```
+
+![image-20240421230504454](./free5gc.assets/image-20240421230504454.png)
+
+可以通过下面一条命令，查询出所有容器及其对应的ip地址：
+
+```bash
+docker inspect -f '{{.Name}} - {{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker ps -aq)
+```
+
+![](./free5gc.assets/image-20240421230417702.png)
