@@ -2,6 +2,10 @@
 
 来源：The Thirty-Eighth AAAI Conference on Artificial Intelligence (AAAI-24) **人工智能促进协会**
 
+关键词：LLM, RAG, Benchmarking
+
+[TOC]
+
 ## 摘要
 
 ### 背景：
