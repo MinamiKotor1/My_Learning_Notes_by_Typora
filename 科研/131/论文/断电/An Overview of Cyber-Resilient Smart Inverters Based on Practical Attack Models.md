@@ -1,1 +1,0 @@
-# An Overview of Cyber-Resilient Smart Inverters Based on Practical Attack Models
